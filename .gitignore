@@ -1,0 +1,42 @@
+# .NET Core
+*.dll
+*.exe
+*.pdb
+*.dll.config
+*.exe.config
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+obj/
+bin/
+
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userprefs
+*.vspscc
+*.vssscc
+*.vspscc
+*.sln.docstates
+
+# NuGet
+packages/
+
+# Other
+*.log
+*.txt
+*.cache
+*.bak
+*.swp
+
+# ASP.NET Core
+*.csproj.user
+*.publishsettings
+*.pubxml
+*.publishproj
+*.pfx
+*.snk
+*.config.user
+*.config.transform.user
