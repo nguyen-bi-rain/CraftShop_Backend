@@ -16,6 +16,7 @@ namespace CraftShop.API
 
             CreateMap<Category, CategoryCreatedDTO>().ReverseMap();
             CreateMap<Category,CategoryDTO>().ReverseMap();
+            
             CreateMap<ApplicationUser, UserDTO>().ReverseMap();
 
             CreateMap<ProductImage,ProductImageCreatedDTO>().ReverseMap();

@@ -6,6 +6,7 @@ using CraftShop.API.Repository;
 using CraftShop.API.Repository.IRepository;
 using CraftShop.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -91,6 +92,13 @@ builder.Services.AddSwaggerGen(opt =>{
             new string[]{}
         }
     });
+});
+
+//limit capacity of image upload to server to 8 MB;
+builder.Services.Configure<FormOptions>(opt =>
+{
+
+    opt.MultipartBodyLengthLimit = 5 * 1024 * 1024;
 });
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));

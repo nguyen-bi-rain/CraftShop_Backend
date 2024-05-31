@@ -26,39 +26,47 @@ namespace CraftShop.API.Repository
             }
             try
             {
+                int maxContent = 5 * 1024 * 1024;
                 ProductImage images = new ProductImage();
                 images.Id = Guid.NewGuid().ToString();
-                for(int i=0; i<dto.Images.Count; i++) 
+                for (int i = 0; i < dto.Images.Count; i++)
                 {
                     if (dto.Images[i] == null || dto.Images[i].Length == 0)
                         continue;
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + dto.Images[i].FileName;
-                    string uploadsFolder = @"F:\document\CraftShop\frontend\src\assets";
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    switch (i)
+                    if (dto.Images[i].Length < maxContent)
                     {
-                        case 0:
-                            images.ImageThumb = Path.GetFileName(uniqueFileName);
-                            break;
-                        case 1:
-                            images.Image1 = Path.GetFileName(uniqueFileName);
-                            break;
-                        case 2:
-                            images.Image2 = Path.GetFileName(uniqueFileName);
-                            break;
-                        case 3:
-                            images.Image3 = Path.GetFileName(uniqueFileName);
-                            break;
-                        case 4:
-                            images.Image4 = Path.GetFileName(uniqueFileName);
-                            break;
+                        string uniqueFileName = Guid.NewGuid().ToString() + "_" + dto.Images[i].FileName;
+                        string uploadsFolder = @"F:\document\CraftShop\frontend\src\assets";
+                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                        switch (i)
+                        {
+                            case 0:
+                                images.ImageThumb = Path.GetFileName(uniqueFileName);
+                                break;
+                            case 1:
+                                images.Image1 = Path.GetFileName(uniqueFileName);
+                                break;
+                            case 2:
+                                images.Image2 = Path.GetFileName(uniqueFileName);
+                                break;
+                            case 3:
+                                images.Image3 = Path.GetFileName(uniqueFileName);
+                                break;
+                            case 4:
+                                images.Image4 = Path.GetFileName(uniqueFileName);
+                                break;
 
 
+                        }
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await dto.Images[i].CopyToAsync(stream);
+                        }
                     }
-                    
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    else
                     {
-                        await dto.Images[i].CopyToAsync(stream);
+                        return;
                     }
                 }
                 images.ProductId = dto.ProductId;

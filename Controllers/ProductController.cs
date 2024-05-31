@@ -185,6 +185,27 @@ namespace CraftShop.API.Controllers
             }
             return _response;
         }
-
+        [Authorize(Roles = "admin,customer")]
+        //search product by price ,category and name.
+        [HttpGet("ProductSearch")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIRespone>> ProductSearch([FromQuery] ProductSearch query){
+            try{
+                if(query == null){
+                    return BadRequest();
+                }
+                var products = await _productRepository.SearchProductAsync(query);
+                _response.Result = _mapper.Map<List<ProductDTO>>(products);
+                _response.Status = HttpStatusCode.OK;
+                return Ok(_response);
+            }catch(Exception ex){
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
     }
+
 }

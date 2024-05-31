@@ -33,7 +33,7 @@ namespace CraftShop.API.Repository
         public async Task<List<Order>> GetOrdersAsync(string status)
         {
             IQueryable<Order> OrderList = _db.Orders.Include(x => x.OrderItems);
-            if(!string.IsNullOrEmpty(status))
+            if (!string.IsNullOrEmpty(status))
             {
                 OrderList = OrderList.Where(x => x.OrderStatus == status);
             }
@@ -45,21 +45,26 @@ namespace CraftShop.API.Repository
             var order = _db.Orders.Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.Id == id);
             return order;
         }
-
+        public Task<Order> GetOrderByUser(string? id)
+        {
+            var userId = _userRepository.GetUserIdFromToken(id);
+            var order = _db.Orders.Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.ApplicationUserId.Contains(userId));
+            return order;
+        }
         public async Task<Order> UpdateOrderAsync(Order order)
         {
             order.UpdatedDate = DateTime.Now;
             _db.Update(order);
-            _db.SaveChangesAsync();
-            return order;   
+            await _db.SaveChangesAsync();
+            return order;
         }
 
-        public async Task<Order> UpdateStatusOrderAsync(int? id,string status)
+        public async Task<Order> UpdateStatusOrderAsync(int? id, string status)
         {
             var order = _db.Orders.FirstOrDefault(x => x.Id == id);
             order.OrderStatus = status;
             _db.Update(order);
-            _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
             return order;
         }
 
