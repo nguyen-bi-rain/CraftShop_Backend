@@ -17,7 +17,7 @@ public class CacheServices : ICacheService
         //options.ConnectTimeout = 5000;
         //options.EndPoints = { }
 
-        var redis = ConnectionMultiplexer.Connect("redis-17234.c1.asia-northeast1-1.gce.redns.redis-cloud.com:17234,password=TMyCim6RJbvZwOuEmu9eWNTbTUjV9irw");
+        var redis = ConnectionMultiplexer.Connect("redis-17948.c259.us-central1-2.gce.redns.redis-cloud.com:17948,password=hY71O4bWeiVjIbFVmghCQClkW0DXImZU");
         _cacheDB = redis.GetDatabase();
     }
     public T GetData<T>(string Key)

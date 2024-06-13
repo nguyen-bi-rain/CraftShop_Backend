@@ -152,8 +152,7 @@ namespace CraftShop.API.Repository
         public async Task UpdateUser(UserDTO userDTO)
         {
             var user = _mapper.Map<ApplicationUser>(userDTO); // Convert UserDTO to ApplicationUser
-            _db.ApplicationUsers.Update(user);
-            await _db.SaveChangesAsync();
+            await _userManager.UpdateAsync(user);
         }
 
         public async Task DeleteUser(string userId)

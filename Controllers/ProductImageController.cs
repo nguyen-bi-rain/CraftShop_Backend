@@ -2,6 +2,7 @@
 using CraftShop.API.Models;
 using CraftShop.API.Models.DTO;
 using CraftShop.API.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ namespace CraftShop.API.Controllers
             _imageRepository = imageRepository;
             this._response = new();
         }
+        [Authorize(Roles = "customer,admin")]
         [HttpPost]
         public async Task<ActionResult<APIRespone>> UploadImage([FromForm] ProductImageCreatedDTO dto)
         {
@@ -43,6 +45,7 @@ namespace CraftShop.API.Controllers
             }
             return _response;
         }
+        [Authorize(Roles = "customer,admin")]
         [HttpGet]
         public async Task<ActionResult<APIRespone>> GetImageByProductId([FromQuery]int id)
         {

@@ -44,6 +44,23 @@ namespace CraftShop.API.Repository
             return await query.Skip((pageNumber-1)*pageSize).Take(pageSize).ToListAsync();
         }
 
+        public async Task<List<T>> GetAllNoPagination(Expression<Func<T, bool>> Filter = null, string includeProperties = null)
+        {
+            IQueryable<T> query = dbset;
+            if (Filter != null)
+            {
+                query = query.Where(Filter);
+            }
+            if (includeProperties != null)
+            {
+                foreach (var property in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
+            return await query.ToListAsync();
+        }
+
         public async Task<T> GetAsync(Expression<Func<T, bool>> Filter = null,bool tracked = true, string includeProperties = null)
         {
             IQueryable<T> query = dbset;

@@ -53,6 +53,7 @@ public class PaymentController : ControllerBase
         }
         return _response;
     }
+    [Authorize(Roles = "customer,admin")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
