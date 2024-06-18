@@ -45,7 +45,7 @@ namespace CraftShop.API.Controllers
                 else
                 {
                     products = await _productRepository.GetAllAsync(includeProperties: "Category,ProductImage", pageSize: pageSize, pageNumber: pageNumber);
-                    _cacheService.SetData(cacheString, products.ToList(), DateTimeOffset.Now.AddSeconds(30));
+                    _cacheService.SetData(cacheString, products.ToList(), DateTimeOffset.Now.AddMinutes(3));
                 }
                 var totalProduct = await _productRepository.GetAllNoPagination();
                 var pagination = new PaginationFilter(totalProduct.Count, pageSize, pageNumber);
@@ -64,7 +64,6 @@ namespace CraftShop.API.Controllers
         [HttpGet("{id:int}", Name = "GetProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Authorize(Roles = "customer,admin")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIRespone>> GetProduct(int? id)
         {

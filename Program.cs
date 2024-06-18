@@ -52,7 +52,8 @@ builder.Services.AddCors(options =>
         builder.WithOrigins("https://localhost:7188", "http://localhost:5251")
         .AllowAnyOrigin()
         .AllowAnyHeader()
-        .AllowAnyMethod();
+        .AllowAnyMethod()
+        .WithExposedHeaders("X-Pagination");
     });
 });
 
